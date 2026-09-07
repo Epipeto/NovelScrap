@@ -2,13 +2,13 @@
 Brainstorming Translations extractor
 
 The HTML selectors used here were verified against the live site (2026):
-    - book title / author  :  div.fic-header  h1  /  a.font-white
-    - table of contents    :  rows  tr.chapter-row  (each row contains the
+    - book title / author  :  div.fic-header  h1 
+    - table of contents    :  rows  bixbox bxcl epcheck .li  (each row contains the
                                chapter link; the same row repeats a "data"
                                link, so we filter and deduplicate by URL)
-    - chapter content      :  div.chapter-content  ->  <p> paragraphs
+    - chapter content      :  div.cat-series  ->  <p> paragraphs
 
-If Royal Road ever changes its layout, just update the selectors in this
+If Brainstorming Translations ever changes its layout, just update the selectors in this
 file, without touching the rest of the program.
 """
 
