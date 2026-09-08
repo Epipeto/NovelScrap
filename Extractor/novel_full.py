@@ -86,6 +86,7 @@ if __name__ == "__main__":
                 "path": "/search",
                 "query_key": "keyword",
                 "light_novel": {
+                    #TODO path of novel
                     "selector": "div:has(> h3.truyen-title)",
                     "title": {
                         "selector": "h3.truyen-title a[title]",
