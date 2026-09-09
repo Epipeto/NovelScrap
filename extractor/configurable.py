@@ -1,9 +1,10 @@
 from extractor.base import BaseExtractor
 from extractor.models import Book, Chapter
 
-import requests, re, time
+import re, time
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse, urlencode
+import requests
 
 class ConfigurableExtractor(BaseExtractor):
 
@@ -20,14 +21,8 @@ class ConfigurableExtractor(BaseExtractor):
     
 
     def fetch_chapter(self, url: str, headers: dict[str, str] | None = None) -> Chapter:
-         # Get the html page
+        # Get the html page
         soup = self._get_soup(url=url, headers=headers)
-
-        # Extract light novel title
-        #title_element = soup.select_one(self.__class__.config["light_novel_title"]["selector"])
-        #title = None
-        #if title_element:
-        #    title = title_element.text
 
         # Extract light chapter title
         chapter_title_el = soup.select_one(self.__class__.config["chapter_title"]["selector"])
@@ -47,7 +42,7 @@ class ConfigurableExtractor(BaseExtractor):
 
         attr_name = self.__class__.config["content"].get("attribute")
         if attr_name:
-            chapter_content = [el.get(attr_name) for el in chapter_content_els if el.get(attr_name)]
+            chapter_content = [el.get(attr_name).strip() for el in chapter_content_els if el.get(attr_name)]
         else:
             chapter_content = [el.get_text(strip=True) for el in chapter_content_els]
 
@@ -80,7 +75,11 @@ class ConfigurableExtractor(BaseExtractor):
                     # A chapter that does not respond must not block the whole book:
                     # we still record it in the table of contents, with empty content.
                     chapter = Chapter(title=chapter_title, content=[], index=index, url=chapter_url)
-
+                else:
+                    chapter.index = index
+                    if not chapter.title:
+                        chapter.title = chapter_title
+                        
                 book.chapters.append(chapter)
 
                 time.sleep(self.__class__.delay)
@@ -112,8 +111,8 @@ class ConfigurableExtractor(BaseExtractor):
                 try:
                     return int(float(match.group(0)))
                 except ValueError:
-                    return -1
-        return -1
+                    return 1
+        return 1
 
     def _get_chapter_list(self, bookUrl: str, index: int, headers: dict[str, str] | None = None) -> dict[str, str]:
         params = {self.__class__.config["chapter_list"]["request_keyword"]: index}
