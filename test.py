@@ -19,7 +19,11 @@ class novelfullExtractor(ConfigurableExtractor):
                     }
                 }
             },
-            
+            "book": {
+                "title_selector": "h3.title",
+                "author_selector": 'div.info div > a[href^="/author/"]',
+                "description_selector": "div.desc-text p"
+            },
             "light_novel_title": {
                 "selector": "a.truyen-title"
             },
@@ -31,6 +35,19 @@ class novelfullExtractor(ConfigurableExtractor):
                 "selector": "p[data-reader-original-text]",
                 "attribute": "data-reader-original-text",
                 "join": "\n"
+            },
+            "chapter_list": {
+                "last_page": {
+                    "selector": "li.last a",
+                    "attribute": "href",
+                    "pattern": "\\d+"
+                },
+                "request_keyword": "page",
+                "chapter_info": {
+                    "selector": "ul.list-chapter li a[title]",
+                    "title_attribute": "title",
+                    "path_attribute": "href"
+                }
             }
         }
 
@@ -53,7 +70,9 @@ if __name__ == "__main__":
                     }
                 }
             },
-            
+            "book": {
+                "selector": "h3.title"
+            },
             "light_novel_title": {
                 "selector": "a.truyen-title"
             },
@@ -82,8 +101,10 @@ if __name__ == "__main__":
     #print(f"CHAPTER TITLE: {chapter_title}")
     #print(chapter_content)
 
-    url = "https://novelfull.com/reborn-space-intelligent-woman/chapter-2786-experiments-related-to-cultivators.html"
+    #url = "https://novelfull.com/reborn-space-intelligent-woman/chapter-2786-experiments-related-to-cultivators.html"
+    url = "https://novelfull.com/dungeon-defense.html"
     nf = novelfullExtractor()
-    print(nf.fetch_chapter(url, headers))
+    print(nf.fetch_book(url=url, headers=headers))
+    #print(nf.fetch_chapter(url, headers))
 
     
