@@ -1,55 +1,6 @@
 from converter import convert_book, supported_formats
-from extractor import extractors, fetch, ConfigurableExtractor
+from extractor import extractors, fetch, NovelBuddy
 
-class novelfullExtractor(ConfigurableExtractor):
-    domain = "https://novelfull.com"
-    config = {
-            "search": {
-                "path": "/search",
-                "query_key": "keyword",
-                "light_novel": {
-                    #TODO path of novel
-                    "selector": "div:has(> h3.truyen-title)",
-                    "title": {
-                        "selector": "h3.truyen-title a[title]",
-                        "attribute": "title"
-                    },
-                    "author" : {
-                        "selector": "span.author"
-                    }
-                }
-            },
-            "book": {
-                "title_selector": "h3.title",
-                "author_selector": 'div.info div > a[href^="/author/"]',
-                "description_selector": "div.desc-text p"
-            },
-            "light_novel_title": {
-                "selector": "a.truyen-title"
-            },
-            "chapter_title": {
-                "selector": "a.chapter-title",
-                "chapter_number_pattern": "\\d+"
-            },
-            "content": {
-                "selector": "p[data-reader-original-text]",
-                "attribute": "data-reader-original-text",
-                "join": "\n"
-            },
-            "chapter_list": {
-                "last_page": {
-                    "selector": "li.last a",
-                    "attribute": "href",
-                    "pattern": "\\d+"
-                },
-                "request_keyword": "page",
-                "chapter_info": {
-                    "selector": "ul.list-chapter li a[title]",
-                    "title_attribute": "title",
-                    "path_attribute": "href"
-                }
-            }
-        }
 
 if __name__ == "__main__":
 
@@ -102,9 +53,9 @@ if __name__ == "__main__":
     #print(chapter_content)
 
     #url = "https://novelfull.com/reborn-space-intelligent-woman/chapter-2786-experiments-related-to-cultivators.html"
-    url = "https://novelfull.com/dungeon-defense.html"
-    nf = novelfullExtractor()
-    print(nf.fetch_book(url=url, headers=headers))
+    url = "https://novelbuddy.me/supreme-daily-login-system/chapter-1-the-day-that-changed-everything"
+    nf = NovelBuddy()
+    print(nf.fetch_chapter(url=url, headers=headers))
     #print(nf.fetch_chapter(url, headers))
 
     

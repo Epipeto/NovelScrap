@@ -8,7 +8,7 @@ Every file in this package (except models.py, base.py and dispatcher.py)
 must contain a class extending BaseExtractor to register a new site.
 Existing example: royal_road.py -> RoyalRoadExtractor.
 """
-from extractor.configurable import ConfigurableExtractor
+#from extractor.novelbuddy import NovelBuddy
 
 
 from extractor.models import Book, Chapter
